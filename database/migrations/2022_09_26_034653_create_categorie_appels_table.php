@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateCategorieAppelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('categorie_appels', function (Blueprint $table) {
             $table->id();
+            $table->string('nom')->unique();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -28,4 +33,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('categorie_appels');
     }
-};
+}

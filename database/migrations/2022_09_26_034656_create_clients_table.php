@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_complet');
+            $table->string('telephone')->unique();
+            $table->string('email')->unique();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -28,4 +35,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('clients');
     }
-};
+}

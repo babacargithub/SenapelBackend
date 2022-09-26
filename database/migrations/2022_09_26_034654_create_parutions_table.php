@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateParutionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('compte_clients', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('parutions', function (Blueprint $table) {
             $table->id();
+            $table->date('journee');
+            $table->integer('prix');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compte_clients');
+        Schema::dropIfExists('parutions');
     }
-};
+}

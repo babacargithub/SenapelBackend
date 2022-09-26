@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appel extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
 
     /**
@@ -18,8 +19,12 @@ class Appel extends Model
         'titre',
         'sous_titre',
         'contenu',
-        'date_expiration',
-        'paru_dans',
+        'date_appel',
+        'date_limite',
+        'publie_dans',
+        'autorite',
+        'parution_id',
+        'categorie_appel_id',
     ];
 
     /**
@@ -29,6 +34,21 @@ class Appel extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'date_expiration' => 'timestamp',
+        'date_appel' => 'datetime',
+        'date_limite' => 'datetime',
+        'parution_id' => 'integer',
+        'categorie_appel_id' => 'integer',
     ];
+
+    public function parution()
+    {
+        return $this->belongsTo(Parution::class);
+    }
+
+
+
+    public function categorieAppel()
+    {
+        return $this->belongsTo(CategorieAppel::class);
+    }
 }

@@ -1,9 +1,27 @@
-created: 'database/factories/AppelFactory.php database/migrations/2022_09_25_230100_create_appels_table.php app/Models/Appel.php'
+created:
+    - database/factories/AppelFactory.php
+    - database/factories/CategorieAppelFactory.php
+    - database/factories/ParutionFactory.php
+    - database/factories/AchatParutionFactory.php
+    - database/factories/ClientFactory.php
+    - database/factories/CompteClientFactory.php
+    - database/migrations/2022_09_26_034652_create_appels_table.php
+    - database/migrations/2022_09_26_034653_create_categorie_appels_table.php
+    - database/migrations/2022_09_26_034654_create_parutions_table.php
+    - database/migrations/2022_09_26_034655_create_achat_parutions_table.php
+    - database/migrations/2022_09_26_034656_create_clients_table.php
+    - database/migrations/2022_09_26_034657_create_compte_clients_table.php
+    - app/Models/Appel.php
+    - app/Models/CategorieAppel.php
+    - app/Models/Parution.php
+    - app/Models/AchatParution.php
+    - app/Models/Client.php
+    - app/Models/CompteClient.php
 models:
-    AchatParution: {  }
-    Appel: {  }
-    CategorieAppel: {  }
-    Client: {  }
-    CompteClient: {  }
-    Parution: {  }
     User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
+    Appel: { titre: string, sous_titre: 'nullable string', contenu: longtext, date_appel: datetime, date_limite: datetime, publie_dans: 'string nullable', autorite: 'string nullable', parution_id: foreign, categorie_appel_id: foreign, relationships: { belongsTo: Parution } }
+    CategorieAppel: { nom: 'string unique', relationships: { hasMany: Appel } }
+    Parution: { journee: date, prix: integer, relationships: { hasMany: 'Appel, AchatParution' } }
+    AchatParution: { prix: integer, paye_par: string, parution_id: foreign, client_id: foreign, relationships: { belongsTo: 'Parution, Client' } }
+    Client: { nom_complet: string, telephone: 'bigint unique', email: 'string unique' }
+    CompteClient: { solde: integer, client_id: foreign, relationships: { belongsTo: Client } }

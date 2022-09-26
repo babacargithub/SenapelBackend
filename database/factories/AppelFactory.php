@@ -5,6 +5,8 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Appel;
+use App\Models\CategorieAppel;
+use App\Models\Parution;
 
 class AppelFactory extends Factory
 {
@@ -26,8 +28,12 @@ class AppelFactory extends Factory
             'titre' => $this->faker->word,
             'sous_titre' => $this->faker->word,
             'contenu' => $this->faker->text,
-            'date_expiration' => $this->faker->dateTime(),
-            'paru_dans' => $this->faker->word,
+            'date_appel' => $this->faker->dateTime(),
+            'date_limite' => $this->faker->dateTime(),
+            'publie_dans' => $this->faker->word,
+            'autorite' => $this->faker->word,
+            'parution_id' => Parution::factory(),
+            'categorie_appel_id' => CategorieAppel::factory(),
         ];
     }
 }

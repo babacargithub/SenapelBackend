@@ -3,21 +3,27 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use App\Models\CategorieAppel;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CategorieAppel>
- */
 class CategorieAppelFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = CategorieAppel::class;
+
+    /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function definition()
     {
         return [
-            //
+            'nom' => $this->faker->word,
         ];
     }
 }

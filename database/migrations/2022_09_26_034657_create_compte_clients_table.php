@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateCompteClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('appels', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('compte_clients', function (Blueprint $table) {
             $table->id();
+            $table->integer('solde');
+            $table->foreignId('client_id')->constrained();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appels');
+        Schema::dropIfExists('compte_clients');
     }
-};
+}

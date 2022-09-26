@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateAchatParutionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('achat_parutions', function (Blueprint $table) {
             $table->id();
+            $table->integer('prix');
+            $table->string('paye_par');
+            $table->foreignId('parution_id')->constrained();
+            $table->foreignId('client_id')->constrained();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -28,4 +36,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('achat_parutions');
     }
-};
+}

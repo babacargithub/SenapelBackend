@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreParutionRequest;
-use App\Http\Requests\UpdateParutionRequest;
-use App\Http\Resources\ParutionResource;
-use App\Models\Parution;
+use Illuminate\Http\Request;
 
-class ParutionController extends Controller
+class CompteClient extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +14,6 @@ class ParutionController extends Controller
     public function index()
     {
         //
-        return response(ParutionResource::collection(Parution::all()));
     }
 
     /**
@@ -33,10 +29,10 @@ class ParutionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreParutionRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreParutionRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -44,10 +40,10 @@ class ParutionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Parution  $parution
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Parution $parution)
+    public function show($id)
     {
         //
     }
@@ -55,10 +51,10 @@ class ParutionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Parution  $parution
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Parution $parution)
+    public function edit($id)
     {
         //
     }
@@ -66,11 +62,11 @@ class ParutionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateParutionRequest  $request
-     * @param  \App\Models\Parution  $parution
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateParutionRequest $request, Parution $parution)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,10 +74,10 @@ class ParutionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Parution  $parution
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Parution $parution)
+    public function destroy($id)
     {
         //
     }
