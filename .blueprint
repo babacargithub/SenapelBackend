@@ -1,0 +1,9 @@
+created: 'database/factories/AppelFactory.php database/migrations/2022_09_25_230100_create_appels_table.php app/Models/Appel.php'
+models:
+    AchatParution: {  }
+    Appel: {  }
+    CategorieAppel: {  }
+    Client: {  }
+    CompteClient: {  }
+    Parution: {  }
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
