@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchatParutionController;
 use App\Http\Controllers\Admin\AppelCrudController;
 use App\Http\Controllers\Admin\AvisCrudController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\RapportsController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,5 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('/achat_parution', [AchatParutionController::class,'store']);
+Route::get('/invoice_url/{parution}', [PaiementController::class,'getCheckoutUrl']);
 require __DIR__.'/auth.php';

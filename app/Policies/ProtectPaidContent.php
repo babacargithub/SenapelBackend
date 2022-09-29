@@ -32,4 +32,14 @@ class ProtectPaidContent
             ],403);
     }
 
+    public function requireClient(): Client
+    {
+        $clientId = request()->header('Client-Id');
+        if ($clientId == null){
+            throw new \InvalidArgumentException('client id cannot be null');
+        }
+        return  Client::findOrFail($clientId);
+
+    }
+
 }
