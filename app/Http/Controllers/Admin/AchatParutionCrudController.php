@@ -21,7 +21,7 @@ class AchatParutionCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +33,7 @@ class AchatParutionCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -41,19 +41,19 @@ class AchatParutionCrudController extends CrudController
     {
         CRUD::column('prix');
         CRUD::column('paye_par');
-        CRUD::column('parution_id');
-        CRUD::column('client_id');
+        $this->crud->addColumn(['name','parution_id','label'=>'Parution','type'=>'entity','attribute'=>'journee', 'relation'=>'parution']);
+        $this->crud->addColumn(['name','client_id','label'=>'Client','type'=>'entity','attribute'=>'nom_complet', 'relation'=>'client']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -69,13 +69,13 @@ class AchatParutionCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
