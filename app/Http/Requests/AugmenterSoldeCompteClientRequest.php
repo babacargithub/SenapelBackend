@@ -3,11 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateClientRequest extends FormRequest
+class AugmenterSoldeCompteClientRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,6 +13,7 @@ class UpdateClientRequest extends FormRequest
      */
     public function authorize()
     {
+        // TODO if client is owner of the account
         return true;
     }
 
@@ -26,14 +25,7 @@ class UpdateClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => [
-                'required',
-                Rule::unique('clients')->ignore($this->client->id),
-            ],
-            'telephone' => [
-                'required',
-                Rule::unique('clients')->ignore($this->client->id),
-            ],
+            'montant'=>'integer|required|min_digits:2|max_digits:5'
             //
         ];
     }

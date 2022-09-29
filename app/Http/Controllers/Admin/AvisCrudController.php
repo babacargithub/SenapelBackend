@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\ParutionController;
-use App\Http\Requests\AppelRequest;
-use App\Models\Appel;
+use App\Http\Requests\AvisRequest;
+use App\Models\Avis;
 use App\Models\Parution;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -16,11 +16,11 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class AppelCrudController
+ * Class AvisCrudController
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class AppelCrudController extends CrudController
+class AvisCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
@@ -35,9 +35,9 @@ class AppelCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(Appel::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/appel');
-        CRUD::setEntityNameStrings('appel', 'appels');
+        CRUD::setModel(Avis::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/avis');
+        CRUD::setEntityNameStrings('avis', 'avis');
     }
 
     /**
@@ -51,20 +51,16 @@ class AppelCrudController extends CrudController
         CRUD::column('titre');
         CRUD::column('sous_titre');
         $this->crud->addColumn(['name'=>'contenu','type'=>'wysiwyg-render']);
-        CRUD::column('date_appel');
-        CRUD::column('date_limite');
-        CRUD::column('publie_dans');
         CRUD::column('autorite');
         CRUD::column('parution_id');
-        CRUD::column('categorie_appel_id');
     }
 
     protected function setupListOperation()
     {
-        CRUD::column('autorite');
         CRUD::column('titre');
-        CRUD::column('date_limite');
-        CRUD::column('publie_dans');
+        CRUD::column('sous_titre');
+        CRUD::column('autorite');
+        CRUD::column('parution_id');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -81,17 +77,13 @@ class AppelCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(AppelRequest::class);
+        CRUD::setValidation(AvisRequest::class);
 
         CRUD::field('titre');
         CRUD::field('sous_titre');
-        CRUD::field('date_appel');
-        CRUD::field('date_limite');
-        CRUD::field('publie_dans');
+        $this->crud->addField(['name'=>'contenu',"type"=>"wysiwyg"]);
         CRUD::field('autorite');
         CRUD::field('parution_id');
-        $this->crud->addField(['name'=>'categorie_appel_id',"type"=>"select",'entity'=>'CategorieAppel','attribute'=>'nom']);
-        $this->crud->addField(['name'=>'contenu',"type"=>"wysiwyg"]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -110,10 +102,8 @@ class AppelCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
-    public function ajouterAppelsSurParution(Parution $parution)
+    public function ajouterAvisSurParution(Parution $parution)
     {
-//        return redirect(backpack_url('appel/create'));
-        return view('admin.base_admin');
+        return redirect(backpack_url('avis/create'));
     }
 }

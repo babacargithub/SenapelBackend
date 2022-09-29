@@ -34,9 +34,18 @@ class Parution extends Model
     {
         return $this->hasMany(Appel::class);
     }
+    public function avis()
+    {
+        return $this->hasMany(Avis::class);
+    }
 
     public function achatParutions()
     {
         return $this->hasMany(AchatParution::class);
+    }
+
+    public function totalAchate()
+    {
+        return $this->achatParutions->sum('prix');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategorieAppelRequest;
 use App\Http\Requests\UpdateCategorieAppelRequest;
+use App\Http\Resources\CategorieAppelResource;
 use App\Models\CategorieAppel;
 
 class CategorieAppelController extends Controller
@@ -16,6 +17,11 @@ class CategorieAppelController extends Controller
     public function index()
     {
         //
+        $categories = CategorieAppel::with(['appels' => function($query) {
+            $query->whereDate('date_limite', '>',now());
+        }])->get();
+        return response(CategorieAppelResource::collection($categories));
+
     }
 
     /**

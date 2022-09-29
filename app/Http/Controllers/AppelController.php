@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAppelRequest;
 use App\Http\Requests\UpdateAppelRequest;
+use App\Http\Resources\AppelResource;
 use App\Models\Appel;
+use App\Policies\ProtectPaidContent;
 
 class AppelController extends Controller
 {
@@ -17,6 +19,18 @@ class AppelController extends Controller
     {
         //
     }
+/**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function appelsExpires()
+    {
+        //
+        $dateActuelle = Date('Y-m-d H:i:s');
+        $appels = Appel::where('date_limite','>',$dateActuelle)->get();
+        return response(AppelResource::collection($appels));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -26,6 +40,7 @@ class AppelController extends Controller
     public function create()
     {
         //
+        return response('appels.new');
     }
 
     /**
@@ -43,11 +58,16 @@ class AppelController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Appel  $appel
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function show(Appel $appel)
+    public function show(Appel $appel, ProtectPaidContent $checker)
     {
         //
+        if ($checker->isAllowedToViewPaidContent($appel->parution)){
+            return $checker->accessDeniedResponse();
+
+        }
+        return response(new AppelResource($appel));
     }
 
     /**

@@ -29,4 +29,9 @@ class Client extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function compteClient()
+    {
+        return $this->hasOne(CompteClient::class);
+    }
 }

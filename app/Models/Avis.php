@@ -5,19 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompteClient extends Model
+class Avis extends Model
 {
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'solde',
-        'client_id',
+        'titre',
+        'sous_titre',
+        'contenu',
+        'autorite',
+        'parution_id',
     ];
 
     /**
@@ -26,22 +28,13 @@ class CompteClient extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'client_id' => 'integer',
+        'id' => 'integer'
     ];
 
-    public function client()
+    public function parution()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Parution::class);
     }
 
-    public function augmenterSolde(float $montant)
-    {
-     $this->solde = $this->solde + $montant;
-    }
-    public function diminuerSolde(float $montant)
-    {
-     $this->solde = $this->solde - $montant;
-    }
 
 }
