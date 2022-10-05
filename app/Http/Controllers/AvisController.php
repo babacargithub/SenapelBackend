@@ -30,7 +30,7 @@ class AvisController extends Controller
     public function show(Avis $avi, ProtectPaidContent $checker)
     {
         //
-        if ($checker->isAllowedToViewPaidContent($avi->parution)){
+        if ( ! $checker->isAllowedToViewPaidContent($avi->parution)){
             return $checker->accessDeniedResponse();
 
         }

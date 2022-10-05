@@ -63,7 +63,7 @@ class AppelController extends Controller
     public function show(Appel $appel, ProtectPaidContent $checker)
     {
         //
-        if ($checker->isAllowedToViewPaidContent($appel->parution)){
+        if ( ! $checker->isAllowedToViewPaidContent($appel->parution)){
             return $checker->accessDeniedResponse();
 
         }

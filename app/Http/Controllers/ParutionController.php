@@ -44,6 +44,19 @@ class ParutionController extends Controller
         }
         return response(new ParutionResource($parution));
     }
+/**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function parutionParMois($mois,$annee)
+    {
+        //
+        $column ="journee";
+        $parutions = Parution::whereMonth($column,$mois)->whereYear($column,$annee)->get();
+
+        return response(ParutionResource::collection($parutions));
+    }
 
     /**
      * Display a listing of the resource.
@@ -55,7 +68,7 @@ class ParutionController extends Controller
     {
         //
 
-        if ($checker->isAllowedToViewPaidContent($parution)){
+        if (! $checker->isAllowedToViewPaidContent($parution)){
             return $checker->accessDeniedResponse();
 
         }
@@ -69,7 +82,7 @@ class ParutionController extends Controller
     public function avisParution(Parution $parution, ProtectPaidContent $checker)
     {
         //
-        if ($checker->isAllowedToViewPaidContent($parution)){
+        if ( ! $checker->isAllowedToViewPaidContent($parution)){
             return $checker->accessDeniedResponse();
 
         }

@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/parutions/{date}', [ParutionController::class,'parutionParDate']);
 Route::get('/parutions/{parution}/appels', [ParutionController::class,'appelsParution']);
 Route::get('/parutions/{parution}/avis', [ParutionController::class,'avisParution']);
+Route::get('/parutions/mois/{mois}/annee/{annee}', [ParutionController::class,'parutionParMois']);
 Route::get('/appels/appels_expires', [AppelController::class,'appelsExpires']);
 Route::get('/avis/avis_expires', [AvisController::class,'avisExpires']);
 //Route::get('/avis/{avis}', [AvisController::class,'show']);

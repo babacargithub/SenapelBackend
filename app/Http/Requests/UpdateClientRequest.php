@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,13 +27,19 @@ class UpdateClientRequest extends FormRequest
     public function rules()
     {
         return [
+            'nom_complet' => [
+                'required',
+                'min:3'
+            ],
             'email' => [
                 'required',
+                'email',
                 Rule::unique('clients')->ignore($this->client->id),
             ],
             'telephone' => [
                 'required',
                 Rule::unique('clients')->ignore($this->client->id),
+                new PhoneNumber()
             ],
             //
         ];

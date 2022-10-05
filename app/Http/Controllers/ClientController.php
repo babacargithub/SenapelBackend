@@ -46,7 +46,7 @@ class ClientController extends Controller
         $client = Client::create( $data);
         CompteClient::create(['solde'=>0, 'client_id'=>$client->id]);
 
-        return response($client);
+        return response(new ClientResource($client));
     }
 
     /**
@@ -77,12 +77,14 @@ class ClientController extends Controller
      *
      * @param UpdateClientRequest $request
      * @param Client $client
-     * @return Response
+     * @return Response|ClientResource
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
         //
-        return $client->update($request->all());
+         $client->update($request->all());
+
+         return  new ClientResource($client);
     }
 
     /**
