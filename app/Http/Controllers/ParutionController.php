@@ -7,15 +7,16 @@ use App\Http\Requests\UpdateParutionRequest;
 use App\Http\Resources\AppelResource;
 use App\Http\Resources\AvisResource;
 use App\Http\Resources\ParutionResource;
-use App\Models\AchatParution;
-use App\Models\Client;
+use App\Http\Resources\ParutionWithRelationsResource;
+use App\Models\Appel;
+use App\Models\Avis;
 use App\Models\Parution;
 use App\Policies\ProtectPaidContent;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Validation\UnauthorizedException;
 
 class ParutionController extends Controller
 {
@@ -29,7 +30,8 @@ class ParutionController extends Controller
         //
         return response(ParutionResource::collection(Parution::all()));
     }
-/**
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -37,57 +39,141 @@ class ParutionController extends Controller
     public function parutionParDate($date)
     {
         //
-        $column ="journee";
-        $parution = Parution::where($column,$date)->first();
-        if ($parution == null){
+        $column = 'journee';
+        $parution = Parution::where($column, $date)->first();
+        if ($parution == null) {
             return null;
         }
+
         return response(new ParutionResource($parution));
     }
-/**
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function parutionParMois($mois,$annee)
+    public function parutionParDateAppels($date): ?Response
     {
         //
-        $column ="journee";
-        $parutions = Parution::whereMonth($column,$mois)->whereYear($column,$annee)->get();
+        $column = 'journee';
+        $parution = Parution::where($column, $date)->first();
+        if ($parution == null) {
+            return null;
+        }
 
-        return response(ParutionResource::collection($parutions));
+        return response(new ParutionWithRelationsResource($parution));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function parutionParDateAvis($date): ?Response
+    {
+        //
+        $column = 'journee';
+        $parution = Parution::where($column, $date)->first();
+        if ($parution == null) {
+            return null;
+        }
+
+        return response(new ParutionWithRelationsResource($parution));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function parutionParMois($mois, $annee)
+    {
+        //
+        $column = 'journee';
+        $parutions = Parution::whereMonth($column, $mois)->whereYear($column, $annee)->get();
+
+        return response(ParutionWithRelationsResource::collection($parutions));
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response|JsonResponse
+     */
+    public function archiveMois($mois, $annee)
+    {
+        //
+        $column = 'date_appel';
+        $appels = Appel::with(['parution'])->whereMonth($column, $mois)->whereYear($column, $annee)->get();
+$avis = Avis::with(['parution'])->whereMonth('created_at', $mois)->whereYear("created_at", $annee)->get();
+        return response()->json(["appels"=>AppelResource::collection($appels), "avis"=>AvisResource::collection($avis)]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function parutionDans($date, $paru_dans)
+    {
+        //
+        $column = 'journee';
+        /** @var Parution $parution */
+        $parution = Parution::where($column, $date)
+            ->first();
+        /* ->whereHas('appels', function (Builder $query) use ($paru_dans){
+        $query
+            ->where('publie_dans', 'like', "$paru_dans%");
+    })->orWhereHas('appels', function (Builder $query) use ($paru_dans){
+        $query
+            ->where('publie_dans', 'like', "$paru_dans%");
+    }) */
+        if ($parution == null) {
+            return null;
+        }
+        $parution->appels()->where('publie_dans','like',"$paru_dans%");
+        $parution->avis()->where('publie_dans','like',"$paru_dans%");
+
+        return response(new ParutionWithRelationsResource($parution));
     }
 
     /**
      * Display a listing of the resource.
      *
      * @return JsonResponse|Response
+     *
      * @throws AuthorizationException
      */
     public function appelsParution(Parution $parution, ProtectPaidContent $checker)
     {
         //
 
-        if (! $checker->isAllowedToViewPaidContent($parution)){
+        if (! $checker->isAllowedToViewPaidContent($parution)) {
             return $checker->accessDeniedResponse();
-
         }
+
         return response(AppelResource::collection($parution->appels));
     }
-/**
+
+    /**
      * Display a listing of the resource.
      *
      * @return JsonResponse|Response
- */
+     */
     public function avisParution(Parution $parution, ProtectPaidContent $checker)
     {
         //
-        if ( ! $checker->isAllowedToViewPaidContent($parution)){
+        if (! $checker->isAllowedToViewPaidContent($parution)) {
             return $checker->accessDeniedResponse();
-
         }
+
         return response(AvisResource::collection($parution->avis));
     }
+
+    public function laUneDesJournaux($date)
+    {
+
+}
 
     /**
      * Show the form for creating a new resource.
@@ -119,6 +205,7 @@ class ParutionController extends Controller
     public function show(Parution $parution)
     {
         //
+        return response(new ParutionWithRelationsResource($parution));
     }
 
     /**

@@ -83,6 +83,7 @@ class AvisCrudController extends CrudController
         CRUD::field('sous_titre');
         $this->crud->addField(['name'=>'contenu',"type"=>"wysiwyg"]);
         CRUD::field('autorite');
+        CRUD::field('publie_dans');
         CRUD::field('parution_id');
 
         /**

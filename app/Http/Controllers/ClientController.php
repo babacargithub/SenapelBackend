@@ -7,8 +7,11 @@ use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\CompteClient;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ClientController extends Controller
 {
@@ -60,7 +63,20 @@ class ClientController extends Controller
         //
         return \response(new ClientResource($client));
     }
+    /**
+     *
+     */
+    public function getByPhoneNumber($phoneNumber)
+    {
 
+        try {
+            $client = Client::where('telephone', $phoneNumber)->firstOrFail();
+            return response(new ClientResource($client));
+        } catch (NotFoundHttpException $e) {
+            return \response(["client n'existe pas"], ResponseAlias::HTTP_NOT_FOUND);
+        }
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

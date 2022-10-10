@@ -13,16 +13,14 @@ class ProtectPaidContent
 
     public function isAllowedToViewPaidContent(Parution $parution): bool
     {
-        //TODO re-enable later
-      /*  $clientId = request()->header('Client-Id');
+       $clientId = request()->header('Client-Id');
         if ($clientId == null){
             throw new \InvalidArgumentException('client id cannot be null');
         }
         $client = Client::findOrFail($clientId);
         $achat = AchatParution::where(['client_id'=>$client->id,'parution_id'=>$parution->id])->first();
 
-        return $achat == null;*/
-        return true;
+        return $achat != null;
     }
 
     public function accessDeniedResponse()
