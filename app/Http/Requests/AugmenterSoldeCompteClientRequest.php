@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Policies\ProtectPaidContent;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AugmenterSoldeCompteClientRequest extends FormRequest
@@ -13,8 +14,10 @@ class AugmenterSoldeCompteClientRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO if client is owner of the account
-        return true;
+        $checker = new ProtectPaidContent();
+        $client = $checker->requireClient();
+
+        return  $this->compteClient->client->id == $client->id;
     }
 
     /**

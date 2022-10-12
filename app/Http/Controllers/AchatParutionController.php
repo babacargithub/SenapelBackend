@@ -29,11 +29,9 @@ class AchatParutionController extends Controller
     public function store(StoreAchatParutionRequest $achatParutionRequest)
     {
         //
-        //TODO uncomment line when payment method Wave is implemented
-//        $paymentData = ['parution_id'=>1, "client_id"=>1, 'prix'=>3500];
         $paymentData = $achatParutionRequest->all();
-        $parution =  Parution::find($paymentData['parution_id']);
-        $client =  Client::find($paymentData['client_id']);
+        $parution =  Parution::findOrFail($paymentData['parution_id']);
+        $client =  Client::findOrFail($paymentData['client_id']);
         return AchatParution::create(["paye_par"=>"WAVE","prix"=>$paymentData['prix'],'client_id'=>$client->id,'parution_id'=>$parution->id]);
     }
 
