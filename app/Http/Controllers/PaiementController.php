@@ -22,8 +22,8 @@ class PaiementController extends Controller
     {
         $client = $checker->requireClient();
         $prix = $parution->prix;
-        AchatParution::create(['parution_id'=>$parution->id, 'client_id'=>$client->id, 'prix'=>$prix, 'paye_par'=>'Wave']);
+//        AchatParution::create(['parution_id'=>$parution->id, 'client_id'=>$client->id, 'prix'=>$prix, 'paye_par'=>'Wave']);
 
-        return response()->json(["paiement_link_sent"=> true]);
+        return response()->json(["wave_launch_url"=> "https://pay.wave.com/c/cos-1aktp3s7r1266?a=3400&c=XOF&m=Golob%20One"]);
     }
 }

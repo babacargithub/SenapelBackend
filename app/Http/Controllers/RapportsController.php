@@ -17,7 +17,6 @@ class RapportsController extends Controller
         )->sum('prix');
         $vente_journee = AchatParution::whereDate('created_at',Date('Y-m-d'))->sum('prix');;
         $vente_annnee = AchatParution::whereYear('created_at',Date('Y'))->sum('prix');
-
         return view('admin.rapports.rapports',[
             "ventes_mois"=>$vente_mois,
             "vente_journee"=>$vente_journee,
